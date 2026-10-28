@@ -25,13 +25,19 @@ const OBIEKT = {
   gospodarz:    "Iwona",
   telefon:      "+48 504 605 179",
   email:        "iwonalusiak@gmail.com",                 // np. "kontakt@primo.pl"
-  adres:        "Darłowo, Leśna 18",                 // np. "ul. Morska 5/12, 76-150 Darłowo"
+  adres:        "ul. Leśna 18, 76-150 Darłowo",                 // np. "ul. Morska 5/12, 76-150 Darłowo"
 
   gasnica:      "",                 // gdzie jest gaśnica, np. "przy drzwiach wejściowych"
   apteczka:     "",                 // gdzie jest apteczka, np. "szafka w łazience"
   czujkaDymu:   true,               // true = pokaż prośbę, by nie zasłaniać czujki dymu
 
-  numerRejestru: "123456789"                 // numer obiektu w rejestrze (gdy ustawa wejdzie w życie)
+  numerRejestru: "123456789",                // numer obiektu w rejestrze (gdy ustawa wejdzie w życie)
+
+  // Linki do opinii. Pusty link = przycisk się nie pokazuje.
+  // Gdy wszystkie są puste, cała sekcja z opiniami znika.
+  opinieGoogle:   "https://maps.app.goo.gl/zWt3k8up5xF1ipia9",               // link "Napisz opinię" z Profilu Firmy w Google
+  opinieFacebook: "https://www.facebook.com/profile.php?id=100077030156787&locale=pl_PL",               // np. "https://www.facebook.com/apartamentprimo/reviews"
+  opinieBooking:  ""                // link do strony obiektu na Booking.com
 };
 </script>
 
@@ -105,6 +111,18 @@ ol.rules li::before{content:counter(r) "."; font-family:var(--f-display); font-w
 .sos p{margin:0}
 ul.safety{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:6px}
 
+.reviews{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px; display:flex; flex-direction:column; gap:14px}
+.reviews p{margin:0; color:var(--muted)}
+.stars{display:flex; gap:4px; color:var(--accent)}
+.stars svg{width:20px; height:20px}
+.rbtns{display:flex; flex-direction:column; gap:10px}
+.rbtns a{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  min-height:52px; padding:10px 16px; border-radius:12px; border:1.5px solid var(--sea);
+  color:var(--sea); font-weight:600; text-decoration:none;
+}
+.rbtns a:first-child{background:var(--sea); color:var(--sea-ink)}
+.rbtns a span:last-child{font-size:20px; line-height:1}
 footer{display:flex; flex-direction:column; gap:6px; align-items:center; text-align:center; padding-top:8px}
 footer .bye{font-family:var(--f-display); font-size:22px; margin:0}
 footer small{color:var(--muted)}
@@ -151,6 +169,21 @@ footer small{color:var(--muted)}
     <ul class="safety" id="safety"></ul>
   </section>
 
+  <section aria-labelledby="hReviews" id="reviews" hidden>
+    <h2 id="hReviews" data-t="reviewsTitle"></h2>
+    <div class="reviews">
+      <div class="stars" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>
+      </div>
+      <p data-t="reviewsText"></p>
+      <div class="rbtns" id="rbtns"></div>
+    </div>
+  </section>
+
   <footer>
     <p class="bye" data-t="bye"></p>
     <small id="reg"></small>
@@ -180,10 +213,13 @@ footer small{color:var(--muted)}
       safetyTitle:"Bezpieczeństwo",
       sos:"Numer alarmowy: pogotowie, straż pożarna, policja. Działa bezpłatnie z każdego telefonu.",
       ext:"Gaśnica: ", aid:"Apteczka: ", smoke:"W apartamencie jest czujka dymu. Prosimy jej nie zasłaniać ani nie wyłączać.",
+      reviewsTitle:"Podobał się pobyt?",
+      reviewsText:"Będzie nam bardzo miło, jeśli zostawisz opinię. To dla nas ogromna pomoc i podpowiedź dla kolejnych gości.",
+      rGoogle:"Oceń nas w Google Maps", rFacebook:"Poleć nas na Facebooku", rBooking:"Wystaw opinię na Booking.com",
       bye:"Życzymy miłego pobytu", reg:"Nr w rejestrze obiektów: "
     },
     de:{
-      welcome:"Willkommen", title:n => "Ferienwohnung " + n,
+      welcome:"Willkommen", title:n => "Apartament " + n,
       checkin:"Check-in", checkout:"Check-out", quiet:"Nachtruhe",
       from:t => "ab " + t + " Uhr", until:t => "bis " + t + " Uhr",
       rulesTitle:"Hausordnung",
@@ -201,6 +237,9 @@ footer small{color:var(--muted)}
       safetyTitle:"Sicherheit",
       sos:"Notruf für Rettungsdienst, Feuerwehr und Polizei. Kostenlos von jedem Telefon.",
       ext:"Feuerlöscher: ", aid:"Erste-Hilfe-Kasten: ", smoke:"In der Wohnung gibt es einen Rauchmelder. Bitte nicht abdecken oder ausschalten.",
+      reviewsTitle:"Hat Ihnen der Aufenthalt gefallen?",
+      reviewsText:"Wir freuen uns sehr über Ihre Bewertung. Sie hilft uns und zukünftigen Gästen.",
+      rGoogle:"Auf Google Maps bewerten", rFacebook:"Auf Facebook empfehlen", rBooking:"Auf Booking.com bewerten",
       bye:"Wir wünschen Ihnen einen schönen Aufenthalt", reg:"Registrierungsnummer: "
     },
     en:{
@@ -222,6 +261,9 @@ footer small{color:var(--muted)}
       safetyTitle:"Safety",
       sos:"Emergency number for ambulance, fire brigade and police. Free from any phone.",
       ext:"Fire extinguisher: ", aid:"First aid kit: ", smoke:"There is a smoke detector in the apartment. Please do not cover it or switch it off.",
+      reviewsTitle:"Enjoyed your stay?",
+      reviewsText:"We would be grateful for a review. It helps us a lot and helps future guests choose.",
+      rGoogle:"Review us on Google Maps", rFacebook:"Recommend us on Facebook", rBooking:"Review us on Booking.com",
       bye:"Enjoy your stay", reg:"Registration number: "
     }
   };
@@ -276,6 +318,18 @@ footer small{color:var(--muted)}
     if (O.apteczka) item(L.aid, O.apteczka);
     if (O.czujkaDymu) item('', L.smoke);
     ul.hidden = !ul.children.length;
+
+    const rb = document.getElementById('rbtns'); rb.innerHTML = '';
+    [['opinieGoogle', 'rGoogle'], ['opinieFacebook', 'rFacebook'], ['opinieBooking', 'rBooking']].forEach(([key, label]) => {
+      const url = String(O[key] || '').trim();
+      if (!/^https?:\/\//i.test(url)) return;
+      const a = document.createElement('a');
+      a.href = url; a.target = '_blank'; a.rel = 'noopener';
+      const t = document.createElement('span'); t.textContent = L[label];
+      const arrow = document.createElement('span'); arrow.textContent = '↗'; arrow.setAttribute('aria-hidden', 'true');
+      a.append(t, arrow); rb.append(a);
+    });
+    document.getElementById('reviews').hidden = !rb.children.length;
 
     const reg = document.getElementById('reg');
     reg.textContent = O.numerRejestru ? L.reg + O.numerRejestru : '';
