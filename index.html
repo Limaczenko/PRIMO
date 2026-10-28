@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Apartament Primo · Regulamin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Josefin+Sans:wght@400;600&display=swap">
+
+<script>
+/* =====================================================================
+   DANE OBIEKTU — zmieniasz tylko ten blok.
+   Pole z "UZUPEŁNIJ" świeci się na stronie na żółto, dopóki go nie zmienisz.
+   Pole puste ("") nie pojawia się na stronie wcale.
+   ===================================================================== */
+const OBIEKT = {
+  nazwa:        "Primo",            // samo imię obiektu, bez słowa "apartament"
+  zameldowanie: "14:00",
+  wymeldowanie: "10:00",
+  ciszaOd:      "22:00",
+  ciszaDo:      "6:00",
+
+  gospodarz:    "Iwona",
+  telefon:      "+48 504 605 179",
+  email:        "iwonalusiak@gmail.com",                 // np. "kontakt@primo.pl"
+  adres:        "Darłowo, Leśna 18",                 // np. "ul. Morska 5/12, 76-150 Darłowo"
+
+  gasnica:      "",                 // gdzie jest gaśnica, np. "przy drzwiach wejściowych"
+  apteczka:     "",                 // gdzie jest apteczka, np. "szafka w łazience"
+  czujkaDymu:   true,               // true = pokaż prośbę, by nie zasłaniać czujki dymu
+
+  numerRejestru: "123456789"                 // numer obiektu w rejestrze (gdy ustawa wejdzie w życie)
+};
+</script>
+
+<style>
+:root{
+  --bg:#F6F4EF; --surface:#FFFFFF; --ink:#1B2F45; --muted:#5B6B7C; --line:#E0DBD0;
+  --accent:#A87B3F; --sea:#1E4D73; --sea-ink:#FFFFFF; --mark:#FFE58A; --mark-ink:#5A4300;
+  --danger:#B3261E; --danger-bg:#FBE9E7;
+  --f-display:"Josefin Sans","Figtree",system-ui,sans-serif;
+  --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0F1A25; --surface:#16222F; --ink:#E6ECF1; --muted:#9FB0BF; --line:#263545;
+    --accent:#D6AA6B; --sea:#7FB4DB; --sea-ink:#0B1824; --mark:#6B5410; --mark-ink:#FFF0BF;
+    --danger:#FF8A80; --danger-bg:#3A1C1A; color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); font-family:var(--f-body);
+  font-size:17px; line-height:1.55;
+  padding-left:max(18px, env(safe-area-inset-left, 0px)); padding-right:max(18px, env(safe-area-inset-right, 0px));
+  padding-bottom:calc(40px + env(safe-area-inset-bottom, 0px));
+}
+.page{max-width:640px; margin:0 auto; display:flex; flex-direction:column; gap:28px}
+
+.bar{
+  position:sticky; top:0; z-index:5; background:var(--bg);
+  padding-top:calc(12px + env(safe-area-inset-top, 0px)); padding-bottom:12px;
+  display:flex; justify-content:flex-end; border-bottom:1px solid transparent;
+}
+.bar.scrolled{border-bottom-color:var(--line)}
+.langs{display:flex; background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:3px; gap:2px}
+.langs button{
+  font:inherit; font-size:14px; font-weight:600; letter-spacing:.04em; border:0; background:transparent; color:var(--muted);
+  min-width:48px; height:36px; border-radius:999px; cursor:pointer;
+}
+.langs button[aria-pressed="true"]{background:var(--sea); color:var(--sea-ink)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--sea); outline-offset:2px}
+
+header{display:flex; flex-direction:column; gap:10px; padding-top:4px}
+.eyebrow{font-size:13px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin:0}
+h1{font-family:var(--f-display); font-weight:600; font-size:clamp(30px,8vw,42px); line-height:1.08; margin:0; text-wrap:balance}
+.wave{width:72px; height:10px; color:var(--accent)}
+
+.facts{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px}
+@media (max-width:420px){ .facts{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .facts .wide{grid-column:1 / -1} }
+.fact{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:12px 14px; display:flex; flex-direction:column; gap:2px; min-width:0}
+.fact span{font-size:13px; color:var(--muted)}
+.fact strong{font-family:var(--f-display); font-weight:600; font-size:24px; line-height:1.15; font-variant-numeric:tabular-nums}
+
+section{display:flex; flex-direction:column; gap:12px}
+h2{font-family:var(--f-display); font-weight:600; font-size:22px; margin:0}
+ol.rules{list-style:none; counter-reset:r; margin:0; padding:0; display:flex; flex-direction:column}
+ol.rules li{counter-increment:r; display:grid; grid-template-columns:34px minmax(0,1fr); gap:6px; padding:12px 0; border-top:1px solid var(--line)}
+ol.rules li:last-child{border-bottom:1px solid var(--line)}
+ol.rules li::before{content:counter(r) "."; font-family:var(--f-display); font-weight:600; color:var(--accent); font-variant-numeric:tabular-nums}
+
+.contact{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; display:flex; flex-direction:column; gap:10px}
+.contact dl{margin:0; display:flex; flex-direction:column; gap:8px}
+.contact div{display:grid; grid-template-columns:110px minmax(0,1fr); gap:10px}
+@media (max-width:420px){ .contact div{grid-template-columns:minmax(0,1fr); gap:0} }
+.contact dt{color:var(--muted); font-size:15px}
+.contact dd{margin:0; font-weight:600; overflow-wrap:anywhere}
+.contact a{color:var(--sea)}
+
+.sos{background:var(--danger-bg); border-radius:14px; padding:16px 18px; display:flex; gap:16px; align-items:center}
+.sos a{flex:none; font-family:var(--f-display); font-weight:600; font-size:34px; line-height:1; color:var(--danger); text-decoration:none; border:2px solid var(--danger); border-radius:12px; padding:10px 14px 6px}
+.sos p{margin:0}
+ul.safety{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:6px}
+
+footer{display:flex; flex-direction:column; gap:6px; align-items:center; text-align:center; padding-top:8px}
+footer .bye{font-family:var(--f-display); font-size:22px; margin:0}
+footer small{color:var(--muted)}
+
+.todo{background:var(--mark); color:var(--mark-ink); border-radius:4px; padding:0 4px; font-weight:600}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="bar" id="bar">
+  <div class="langs" role="group" aria-label="Język / Sprache / Language">
+    <button type="button" data-lang="pl" aria-pressed="true">PL</button>
+    <button type="button" data-lang="de" aria-pressed="false">DE</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<main class="page">
+  <header>
+    <p class="eyebrow" data-t="welcome"></p>
+    <h1 id="title"></h1>
+    <svg class="wave" viewBox="0 0 72 10" aria-hidden="true"><path d="M1 5 Q 10 0 19 5 T 37 5 T 55 5 T 71 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </header>
+
+  <div class="facts">
+    <div class="fact"><span data-t="checkin"></span><strong id="fIn"></strong></div>
+    <div class="fact"><span data-t="checkout"></span><strong id="fOut"></strong></div>
+    <div class="fact wide"><span data-t="quiet"></span><strong id="fQuiet"></strong></div>
+  </div>
+
+  <section aria-labelledby="hRules">
+    <h2 id="hRules" data-t="rulesTitle"></h2>
+    <ol class="rules" id="rules"></ol>
+  </section>
+
+  <section aria-labelledby="hContact">
+    <h2 id="hContact" data-t="contactTitle"></h2>
+    <div class="contact"><dl id="contact"></dl></div>
+  </section>
+
+  <section aria-labelledby="hSafety">
+    <h2 id="hSafety" data-t="safetyTitle"></h2>
+    <div class="sos"><a href="tel:112">112</a><p data-t="sos"></p></div>
+    <ul class="safety" id="safety"></ul>
+  </section>
+
+  <footer>
+    <p class="bye" data-t="bye"></p>
+    <small id="reg"></small>
+  </footer>
+</main>
+
+<script>
+(function(){
+  const O = OBIEKT;
+  const T = {
+    pl:{
+      welcome:"Witamy", title:n => "Apartament " + n,
+      checkin:"Zameldowanie", checkout:"Wymeldowanie", quiet:"Cisza nocna",
+      from:t => "od " + t, until:t => "do " + t,
+      rulesTitle:"Regulamin",
+      rules:[
+        "Apartament jest wynajmowany na doby. Zameldowanie od godz. {in}, wymeldowanie do godz. {out} ostatniego dnia pobytu.",
+        "Opłata za pobyt jest pobierana w dniu przyjazdu. W przypadku skrócenia pobytu opłata nie podlega zwrotowi.",
+        "W apartamencie i na terenie obiektu obowiązuje całkowity zakaz palenia.",
+        "Cisza nocna obowiązuje od godz. {qFrom} do godz. {qTo}.",
+        "W apartamencie obowiązuje zakaz organizowania imprez.",
+        "Goście odpowiadają za szkody wyrządzone w apartamencie oraz na terenie obiektu.",
+        "Za szkody wyrządzone przez dzieci odpowiadają rodzice lub opiekunowie.",
+        "Właściciel nie odpowiada za pojazdy gości ani za rzeczy w nich pozostawione. Prosimy nie zostawiać rzeczy wartościowych bez nadzoru."
+      ],
+      contactTitle:"Kontakt z gospodarzem", host:"Gospodarz", phone:"Telefon", email:"E-mail", address:"Adres",
+      safetyTitle:"Bezpieczeństwo",
+      sos:"Numer alarmowy: pogotowie, straż pożarna, policja. Działa bezpłatnie z każdego telefonu.",
+      ext:"Gaśnica: ", aid:"Apteczka: ", smoke:"W apartamencie jest czujka dymu. Prosimy jej nie zasłaniać ani nie wyłączać.",
+      bye:"Życzymy miłego pobytu", reg:"Nr w rejestrze obiektów: "
+    },
+    de:{
+      welcome:"Willkommen", title:n => "Ferienwohnung " + n,
+      checkin:"Check-in", checkout:"Check-out", quiet:"Nachtruhe",
+      from:t => "ab " + t + " Uhr", until:t => "bis " + t + " Uhr",
+      rulesTitle:"Hausordnung",
+      rules:[
+        "Die Ferienwohnung wird tageweise vermietet. Check-in ab {in} Uhr, Check-out bis {out} Uhr am Abreisetag.",
+        "Der Mietpreis ist am Anreisetag zu zahlen. Bei vorzeitiger Abreise erfolgt keine Rückerstattung.",
+        "In der Wohnung und auf dem gesamten Gelände gilt absolutes Rauchverbot.",
+        "Die Nachtruhe gilt von {qFrom} bis {qTo} Uhr.",
+        "Partys und Feiern sind in der Wohnung nicht gestattet.",
+        "Gäste haften für Schäden, die sie in der Wohnung und auf dem Gelände verursachen.",
+        "Für Schäden, die durch Kinder verursacht werden, haften die Eltern bzw. Aufsichtspersonen.",
+        "Der Eigentümer haftet nicht für Fahrzeuge der Gäste und darin zurückgelassene Gegenstände. Bitte lassen Sie Wertsachen nicht unbeaufsichtigt."
+      ],
+      contactTitle:"Kontakt zum Gastgeber", host:"Gastgeber", phone:"Telefon", email:"E-Mail", address:"Adresse",
+      safetyTitle:"Sicherheit",
+      sos:"Notruf für Rettungsdienst, Feuerwehr und Polizei. Kostenlos von jedem Telefon.",
+      ext:"Feuerlöscher: ", aid:"Erste-Hilfe-Kasten: ", smoke:"In der Wohnung gibt es einen Rauchmelder. Bitte nicht abdecken oder ausschalten.",
+      bye:"Wir wünschen Ihnen einen schönen Aufenthalt", reg:"Registrierungsnummer: "
+    },
+    en:{
+      welcome:"Welcome", title:n => "Apartment " + n,
+      checkin:"Check-in", checkout:"Check-out", quiet:"Quiet hours",
+      from:t => "from " + t, until:t => "by " + t,
+      rulesTitle:"House rules",
+      rules:[
+        "The apartment is rented by the night. Check-in from {in}, check-out by {out} on the day of departure.",
+        "Payment is due on the day of arrival. No refund is given if you shorten your stay.",
+        "Smoking is strictly prohibited in the apartment and anywhere on the property.",
+        "Quiet hours are from {qFrom} to {qTo}.",
+        "Parties are not allowed in the apartment.",
+        "Guests are liable for any damage caused in the apartment and on the property.",
+        "Parents or guardians are liable for damage caused by children.",
+        "The owner is not liable for guests' vehicles or items left in them. Please do not leave valuables unattended."
+      ],
+      contactTitle:"Contact your host", host:"Host", phone:"Phone", email:"Email", address:"Address",
+      safetyTitle:"Safety",
+      sos:"Emergency number for ambulance, fire brigade and police. Free from any phone.",
+      ext:"Fire extinguisher: ", aid:"First aid kit: ", smoke:"There is a smoke detector in the apartment. Please do not cover it or switch it off.",
+      bye:"Enjoy your stay", reg:"Registration number: "
+    }
+  };
+
+  const isTodo = v => /UZUPEŁNIJ/i.test(String(v));
+  function val(v){
+    const s = document.createElement('span');
+    s.textContent = v;
+    if (isTodo(v)) s.className = 'todo';
+    return s;
+  }
+  function fill(text){
+    return text.replace('{in}', O.zameldowanie).replace('{out}', O.wymeldowanie)
+               .replace('{qFrom}', O.ciszaOd).replace('{qTo}', O.ciszaDo);
+  }
+
+  function render(lang){
+    const L = T[lang];
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-t]').forEach(el => { el.textContent = L[el.dataset.t]; });
+    document.querySelectorAll('.langs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    const title = L.title(O.nazwa);
+    document.getElementById('title').textContent = title;
+    document.title = title + ' · ' + L.rulesTitle;
+
+    document.getElementById('fIn').textContent = O.zameldowanie;
+    document.getElementById('fOut').textContent = O.wymeldowanie;
+    document.getElementById('fQuiet').textContent = O.ciszaOd + '–' + O.ciszaDo;
+
+    const ol = document.getElementById('rules'); ol.innerHTML = '';
+    L.rules.forEach(r => { const li = document.createElement('li'); li.textContent = fill(r); ol.append(li); });
+
+    const dl = document.getElementById('contact'); dl.innerHTML = '';
+    const row = (label, node) => {
+      const d = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd');
+      dt.textContent = label; dd.append(node); d.append(dt, dd); dl.append(d);
+    };
+    if (O.gospodarz) row(L.host, val(O.gospodarz));
+    if (O.telefon){
+      if (isTodo(O.telefon)) row(L.phone, val(O.telefon));
+      else { const a = document.createElement('a'); a.href = 'tel:' + O.telefon.replace(/[^\d+]/g, ''); a.textContent = O.telefon; row(L.phone, a); }
+    }
+    if (O.email){
+      if (isTodo(O.email)) row(L.email, val(O.email));
+      else { const a = document.createElement('a'); a.href = 'mailto:' + O.email; a.textContent = O.email; row(L.email, a); }
+    }
+    if (O.adres) row(L.address, val(O.adres));
+
+    const ul = document.getElementById('safety'); ul.innerHTML = '';
+    const item = (prefix, v) => { const li = document.createElement('li'); li.append(prefix ? document.createTextNode(prefix) : '', val(v)); ul.append(li); };
+    if (O.gasnica) item(L.ext, O.gasnica);
+    if (O.apteczka) item(L.aid, O.apteczka);
+    if (O.czujkaDymu) item('', L.smoke);
+    ul.hidden = !ul.children.length;
+
+    const reg = document.getElementById('reg');
+    reg.textContent = O.numerRejestru ? L.reg + O.numerRejestru : '';
+    reg.hidden = !O.numerRejestru;
+  }
+
+  function pick(){
+    const h = location.hash.replace('#', '');
+    if (T[h]) return h;
+    const nav = (navigator.language || 'pl').slice(0, 2).toLowerCase();
+    return T[nav] ? nav : (nav === 'pl' ? 'pl' : (['de','at','ch'].includes(nav) ? 'de' : 'pl'));
+  }
+  document.querySelectorAll('.langs button').forEach(b => b.addEventListener('click', () => {
+    history.replaceState(null, '', '#' + b.dataset.lang); render(b.dataset.lang);
+  }));
+  window.addEventListener('hashchange', () => render(pick()));
+  const bar = document.getElementById('bar');
+  window.addEventListener('scroll', () => bar.classList.toggle('scrolled', window.scrollY > 8), {passive:true});
+  render(pick());
+})();
+</script>
+</body>
+</html>
